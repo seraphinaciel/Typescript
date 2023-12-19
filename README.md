@@ -1,8 +1,4 @@
-﻿# Typescript
-
-javascript 기반으로 javascript의 여러 문제를 해결하고 보완하기 위해 MicroSoft에서 만든 언어.
-
-## 왜 만들어졌을까?
+﻿# Typescript 왜 만들어졌을까?
 
 ### JavaScript
 
@@ -12,14 +8,11 @@ javascript 기반으로 javascript의 여러 문제를 해결하고 보완하기
 
 ### TypeScript
 
-> storngly typed programing language
-
-**타입 안정성이 좋은 언어** : 코드에 버그, 런타임(코드가 실행되는 동안 발생하는 오류) 오류가 줄어들고 생성성이 좋아진다.
-
+- javascript 기반으로 javascript의 여러 문제를 해결하고 보완하기 위해 MicroSoft에서 만든 언어.
+- storngly typed programing language
+- **타입 안정성이 좋은 언어** : 코드에 버그, 런타임(코드가 실행되는 동안 발생하는 오류) 오류가 줄어들고 생성성이 좋아진다.
 - TS 코드가 JS로 컴파일 됨
-
 - TS코드에 에러가 감지되면 JS로 컴파일 되지 않음(**컴파일 추론**) : 개발자 실수를 줄여줌
-
 - 변수의 유형을 추론할 수 있으니 **매번 유형을 지정하지 않아도 된다**(가능한 알아서 추론하게 해주는 것도 좋다)
 
 ```ts
@@ -43,7 +36,7 @@ type Name = string;
 // type 로 변수 선언하듯 지정해 '타입'처럼 사용, 과하게 재사용 하지 않는다.
 type Player = {
   name: Name, // 필수 항목
-  age?: Age, //age는 number 또는 undefiened, 선택사항
+  age?: Age, //age는 number|undefiened, 선택사항
 };
 
 const playerA: Player = {name: "alice"};
@@ -75,12 +68,12 @@ player[0]=1; // error
 // 바꿀 수 없음
 const player2: readonly [string, number, boolean] = ["betty", 1, true];
 
-// any : TS에서 빠져나올 때(모두 비활성) 씀. 아무 타입이나 가능해서 웬만해서 사용하지 않음
+// any : TS에서 빠져나올 때, 탈출할 때(모두 비활성) 씀. 아무 타입이나 가능해서 웬만해서 사용하지 않음
 const c: any[]=[1,2,3,4];
 const d:any=true;
 c+d
 
-// unknown : 변수의 타입을 먼저 확인 후 사용
+// unknown : 변수의 타입(typeof)을 먼저 확인 후 사용
 let a : unknown;
 if(typeof a === 'number'){
   let b = a+1
@@ -88,8 +81,8 @@ if(typeof a === 'number'){
 if(typeof a === "strong"){
   let b = a.toUpperCase();
 }
-// void 아무것도 반환하지 않는다.
-// never 코드 경로를 실행해서는 안 되는 경우
+// void : 함수가 아무것도 반환하지 않는다.
+// never : 코드 경로가 실행되어서는 안 되는 경우
 function hello():never{
   throw new Error("xxx")
 }
@@ -467,11 +460,40 @@ dictionary.showAll();
 -showAll() 메소드가 좀 복잡했을텐데요... -먼저 Object.keys()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Object/keys)를 이용하여 words 객체 안의 모든 키값들을 배열 형태로 가져옵니다.
 -->
 
-### Type Aliases과 Interfaces의 차이점
+### Type Aliases
 
-Type Aliases과 인터페이스는 매우 유사하며 많은 경우 자유롭게 선택할 수 있다. 인터페이스의 거의 모든 기능은 type에서 사용할 수 있으며, 주요 차이점은 type을 다시 열어 새 속성을 추가할 수 없는 것. 반면 인터페이스는 항상 확장 가능.
+```ts
+type Person = {
+  name: string;
+  age: number;
+};
+```
+- 모든(any) 타입에 이름을 부여
+- 새로운 속성을 추가할 수 없다 : *확장 불가능*하다
+  - 타입의 속성들이 추후에 추가될 수도 있다면, 개발자들은 타입이 변할 수도 있다는 생각을 하면서 개발을 해야함. 
+    
+### Interfaces
 
-결론: 대부분의 경우 개인 취향에 따라 선택 가능(인터페이스 사용을 조금 더 추천)
+```ts
+interface Person = {
+	name: string;
+	age: number;
+}
+interface Person extends
+```
+- 오직 객체 타입에만 이름을 부여
+- 기존에 선언된 타입을 확장해서 다른 속성을 추가로 선언 : *확장 가능*하다(선언 병합, Declaration merging)
+  - 라이브러리를 사용하는 상황에서 추가적으로 타입의 속성들을 선언할 때 유용하다.
+
+### object에 대한 타입을 선언하는 데 type alias와 interface 중에 무엇을 사용해야함?
+
+- Type Aliases과 interface는 매우 유사하며 많은 경우 자유롭게 선택할 수 있다. interface의 거의 모든 기능은 type에서 사용할 수 있으며, 주요 차이점은 type을 다시 열어 새 속성을 추가할 수 없는 것. 반면 interface는 항상 확장 가능.
+
+결론: 대부분의 경우 개인 취향에 따라 선택 가능(interface 사용을 조금 더 추천, const 상수로 선언해주는 게 좋은 것과 동일 이유)
+
+[더 알아보기](https://tecoble.techcourse.co.kr/post/2022-11-07-typeAlias-interface/)
+
+
 
 ### TS에게 오브젝트 모양을 설명해 주는 방법
 
