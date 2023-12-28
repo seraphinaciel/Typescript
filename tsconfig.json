@@ -1,0 +1,19 @@
+{
+  // js로 컴파일 하고 싶은 모든 디렉토리 입력
+  "include": ["src"],
+  "compilerOptions": {
+    // 컴파일 된 js 파일이 생성될 디렉토리 지정
+    "outDir": "build",
+    // js 버전 설정
+    "target": "ES6",
+    // 합쳐진 라이브러리 정의 파일(declaration files)을 특정해준다
+    // es6를 지원하는 서버와 dom(브라우저 환경)에서 코드 실행시킬 거다
+    // 브라우저 api를 알고 있당
+    // ts는 document가 지닌 모든 이벤트와 메소드를 알려줌(js API의 자동완성 기능 제공)
+    // document.querySelector(), localStorage.getItem(),window.Array
+    "lib": ["ES6", "DOM"],
+    // 보호
+    "strict": true,
+    "allowJs": true
+  }
+}
